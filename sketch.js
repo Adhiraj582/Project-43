@@ -2,6 +2,7 @@ var backImage,backgr;
 var player, player_running;
 var ground,ground_img;
 var banana_img,bananaGroup;
+var obstacleGroup,obstacleImg;
 
 var END =0;
 var PLAY =1;
@@ -12,6 +13,7 @@ function preload(){
   backImage=loadImage("jungle.jpg");
   player_running = loadAnimation("Monkey_01.png","Monkey_02.png","Monkey_03.png","Monkey_04.png","Monkey_05.png","Monkey_06.png","Monkey_07.png","Monkey_08.png","Monkey_09.png","Monkey_10.png");
   banana_img = loadImage("banana.png");
+  obstacleImg = loadImage("stone.png");
 }
 
 function setup() {
@@ -32,6 +34,7 @@ function setup() {
   ground.visible=false;
   
   bananaGroup = createGroup();
+  obstacleGroup = createGroup();
 }
 
 function draw() { 
@@ -57,13 +60,14 @@ function draw() {
     }
 
     spawnFood();
+    spawnObstacle();
   }
 
   drawSprites();
 
-  textSize(15);
+  textSize(25);
   fill("white");
-  text("Score : "+score,700,100);
+  text("Score : "+score,600,100);
 }
 
 function spawnFood(){
@@ -77,5 +81,18 @@ function spawnFood(){
     banana.lifetime = 300;
     player.depth = banana.depth + 1;
     bananaGroup.add(banana);
+  }
+}
+
+function spawnObstacle(){
+  if(frameCount % 100 === 0){
+    var obstacle = createSprite(800,320,40,10);
+    obstacle.addImage(obstacleImg);
+    obstacle.scale = 0.2;
+    obstacle.velocityX = -4;
+
+    obstacle.lifetime = 300;
+    player.depth = obstacle.depth + 1;
+    obstacleGroup.add(obstacle);
   }
 }
